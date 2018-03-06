@@ -15,12 +15,15 @@ import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
    public static String name;
+   public static int level;
    public static int counterVisiting;
     TextView textView;
     sql_lite db = new sql_lite(this);
@@ -31,6 +34,25 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        TextView levelText = (TextView) findViewById(R.id.level);
+
+
+        /**
+        *  progress bars
+         */
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        //int xp1 = getIntent().getIntExtra("xp1",0);
+        int xp1 =+ 20;
+        progressBar.setProgress(xp1);
+       // int xp2 = getIntent().getIntExtra("xp2",0);
+       // progressBar.setProgress(xp2);
+        if (progressBar.getProgress()==100){
+            progressBar.setProgress(0);
+            level++;
+            levelText.setText(level + "");
+        }
 
         TextView t2 = (TextView)findViewById(R.id.Options);
         TextView t1 = (TextView)findViewById(R.id.newGame);
@@ -74,10 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
             // first time task
 
-
+            /*
             Intent intent = new Intent(this,Option.class);
             startActivity(intent);
             finish();
+            */
+            db.isertData("player name");
+            db.insertPic(1);
+
 
             // record the fact that the app has been started at least once
             settings.edit().putBoolean("my_first_time", false).commit();
@@ -106,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this,New_Game.class);
         startActivity(intent);
-        finish();
+
     }
 
 
